@@ -29,7 +29,8 @@ def escOff():
     pwm1.duty_ns(0)
     pwm2.duty_ns(0)
 
-# Arm the ESC controllers, not sure if this is correct yet as it depends on 
+# Arm the ESC controllers, not sure if this is correct yet as it depends on the state of the controller
+# and I need to test this under the conditions that it's in effect
 def arm():
     print("Arming")
     speed(0)
