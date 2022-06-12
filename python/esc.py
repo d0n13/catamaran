@@ -1,19 +1,22 @@
 from time import sleep
 from machine import ADC, Pin, PWM
 
+materArm = 0
+
 # Use pin #0 and # 1 for ESC controller 1 and 2
 trusterRight = PWM(Pin(0)); trusterRight.freq(50)
 trusterLeft = PWM(Pin(1)); trusterLeft.freq(50)
 steering = PWM(Pin(2)); steering.freq(50)
-
-# Joystick input switch
-joySw = Pin(28, Pin.IN, Pin.PULL_UP)
 
 # Joystick x axis
 joyX = ADC(26)
 
 # Joystick y axis
 joyY = ADC(27)
+
+# Joystick input switch
+joySw = Pin(28, Pin.IN, Pin.PULL_UP)
+
 
 # map function
 def map(x, in_min, in_max, out_min, out_max):
@@ -47,19 +50,23 @@ def arm():
 # trigger the arming
 #arm()
 
-# TODO: Need to add joystick and servo for steering and attach trottles to stick
-while True:
-    # Read the joystick
-    x = joyX.read_u16()
-    y = joyY.read_u16()
-    swOn = joySw.value()
-
-    # Joystick values go from 0-65535. Map to servo position from 0-100
-    mappedX = map(x, 0,65535, 0,100) # Steering
-    mappedY = map(y, 0,65535, 0,100) # Trottle
-
-    # Send X mapping to control direction
+# Steering
+def joystickToSteer():
+    x = joyX.read_u16()                 # Read the joystick
+    mappedX = map(x, 0,65535, 0,100)    # Map to a range 0-100. Center position is 50
     steer(mappedX)
 
-    #if swOn:
-        # Allow speed changes
+# Steering
+def joystickToTrottle():
+    x = joyY.read_u16()                 # Read the joystick
+    mappedX = map(x, 0,65535, 0,100)    # Map to a range 0-100. Center position is 50
+    speed(mappedX)
+
+def checkIfArmed():
+     joySw.value() # need to latch the value between on and off as sw is momentary
+
+# Main Loop
+while True:
+    joystickToSteer()
+    joystickToTrottle()
+    checkIfArmed()
