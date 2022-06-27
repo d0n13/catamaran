@@ -1,6 +1,6 @@
 import time 
 from time import sleep
-from machine import ADC, Pin, PWM
+from machine import ADC, Pin, PWM 
 
 # Use pin #0 and # 1 for ESC controller 1 and 2
 trusterRight = PWM(Pin(0)); trusterRight.freq(50)
@@ -9,17 +9,35 @@ steering = PWM(Pin(3)); steering.freq(50)
 
 # Joystick x axis
 joyX = ADC(27)
-
 # Joystick y axis
 joyY = ADC(26)
 
-# Joystick input switch
-joySw = Pin(28, Pin.IN, Pin.PULL_UP)
-
+speedProfile = 0
+speedProfileLastTime = time.time()
 masterArm = 0
 masterArmTime = time.time()
-
 lastSteerPosition = 50
+
+def speedProfileCallback(swValue):
+    global speedProfile
+    global speedProfileLastTime
+
+    pressTime = time.time()
+    if pressTime - 2  > speedProfileLastTime:    
+        if joySw.value() == 0:
+            if speedProfile == 0:
+                print("High power")
+                speedProfile = 1
+            else:
+                print("Low power")
+                speedProfile = 0
+        speedProfileLastTime = time.time()
+    # else:
+    #     print("ignored")
+
+# Joystick input switch
+joySw = Pin(28, Pin.IN, Pin.PULL_UP)
+joySw.irq(trigger=Pin.IRQ_FALLING, handler=speedProfileCallback)
 
 # map function
 def map(x, in_min, in_max, out_min, out_max):
@@ -28,15 +46,21 @@ def map(x, in_min, in_max, out_min, out_max):
 # Set speeds to be same on both ESC controllers
 # Map the value from 0-100% to a pulse from 1ms to 2ms
 def speed(speed):
-    speed = map(speed, 0,100, 1000,2000) #ESC
+    if speedProfile == 1:
+        speed = map(speed, 0,100, 1100,1900) #ESC
+    else:
+        speed = map(speed, 0,100, 1400,1600) #ESC
+
     trusterRight.duty_ns(speed * 1000) # in nanoseconds
     trusterLeft.duty_ns(speed * 1000) # in nanoseconds
+    # print(speed)
     
 # Steering 0 - 100. 50 is straight
 def steer(direction): 
-    dir = map(direction, 0,100, 700,2300)
+    dir = map(direction, 0,100, 1100,1900)
     steering.duty_ns(dir * 1000) # in nanoseconds
-
+    #print(dir)
+    
 # Turn off the outputs
 def escOff():
     trusterRight.duty_ns(0)
@@ -71,6 +95,7 @@ def joystickToSteer():
 # Steering
 def joystickToTrottle():
     y = joyY.read_u16()                 # Read the joystick
+    # print("y: " + str(y))
     mappedY = map(y, 0,65535, 0,100)    # Map to a range 0-100. Center position is 50
     speed(mappedY)
 
@@ -96,4 +121,4 @@ def checkIfArmed():
 while True:
     joystickToSteer()
     joystickToTrottle()
-    checkIfArmed()
+    sleep(0.1)
