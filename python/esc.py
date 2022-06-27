@@ -44,7 +44,8 @@ def map(x, in_min, in_max, out_min, out_max):
     return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
 # Set speeds to be same on both ESC controllers
-# Map the value from 0-100% to a pulse from 1ms to 2ms
+# Map the value from 0-100% to a pulse from 1100ms to 1900ms for high speed
+# Map the value from 0-100% to a pulse from 1400ms to 1600ms for high speed
 def speed(speed):
     if speedProfile == 1:
         speed = map(speed, 0,100, 1100,1900) #ESC
