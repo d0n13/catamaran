@@ -1,11 +1,19 @@
 import time 
 from time import sleep
-from machine import ADC, Pin, PWM 
+from machine import ADC, Pin, PWM, ADC, I2C
+import ssd1306
+import oleddisplay
+import util
+
+# init display
+display = oleddisplay.OLED()
+display.updateBattery(75)
+
+util.flashLED()
 
 # Use pin #0 and # 1 for ESC controller 1 and 2
 trusterRight = PWM(Pin(0)); trusterRight.freq(50)
 trusterLeft = PWM(Pin(1)); trusterLeft.freq(50)
-steering = PWM(Pin(3)); steering.freq(50)
 
 # Joystick x axis
 joyX = ADC(27)
@@ -23,7 +31,7 @@ def speedProfileCallback(swValue):
     global speedProfileLastTime
 
     pressTime = time.time()
-    if pressTime - 2  > speedProfileLastTime:    
+    if pressTime - 2  > speedProfileLastTime:  
         if joySw.value() == 0:
             if speedProfile == 0:
                 print("High power")
@@ -55,13 +63,7 @@ def speed(speed):
     trusterRight.duty_ns(speed * 1000) # in nanoseconds
     trusterLeft.duty_ns(speed * 1000) # in nanoseconds
     # print(speed)
-    
-# Steering 0 - 100. 50 is straight
-def steer(direction): 
-    dir = map(direction, 0,100, 1100,1900)
-    steering.duty_ns(dir * 1000) # in nanoseconds
-    #print(dir)
-    
+        
 # Turn off the outputs
 def escOff():
     trusterRight.duty_ns(0)
@@ -74,24 +76,6 @@ def arm():
     speed(0)
     sleep(2)
     print("Ready")
-
-# trigger the arming
-#arm()
-
-# Steering
-def joystickToSteer():
-    global lastSteerPosition
-
-    if masterArm:
-        x = joyX.read_u16()                 # Read the joystick
-        mappedX = map(x, 0,65535, 0,100)    # Map to a range 0-100. Center position is 50
-
-        if (lastSteerPosition - 2) > mappedX:
-            lastSteerPosition = mappedX
-            steer(mappedX)
-        if (lastSteerPosition + 2) < mappedX:
-            lastSteerPosition = mappedX
-            steer(mappedX)
 
 # Steering
 def joystickToTrottle():
@@ -120,6 +104,5 @@ def checkIfArmed():
     
 # Main Loop
 while True:
-    joystickToSteer()
     joystickToTrottle()
     sleep(0.1)
