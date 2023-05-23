@@ -4114,7 +4114,7 @@
   )
 
   (symbol (lib_id "Device:Fuse") (at 163.83 48.26 90) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom yes) (on_board no) (fields_autoplaced)
     (uuid 15c93d10-46df-4417-994f-99a51de618d3)
     (property "Reference" "F2" (id 0) (at 163.83 43.7982 90))
     (property "Value" "100A" (id 1) (at 163.83 46.3351 90))

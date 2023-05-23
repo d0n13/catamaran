@@ -1,19 +1,19 @@
 import time 
 from time import sleep
 from machine import ADC, Pin, PWM, ADC, I2C
-import ssd1306
-import oleddisplay
+# import ssd1306
+# import oleddisplay
 import util
 
 # init display
-display = oleddisplay.OLED()
-display.updateBattery(75)
+# display = oleddisplay.OLED()
+# display.updateBattery(75)
 
 util.flashLED()
 
 # Use pin #0 and # 1 for ESC controller 1 and 2
-trusterRight = PWM(Pin(0)); trusterRight.freq(50)
-trusterLeft = PWM(Pin(1)); trusterLeft.freq(50)
+trusterRight = PWM(Pin(16, mode=Pin.OUT)); trusterRight.freq(50)
+trusterLeft = PWM(Pin(17, mode=Pin.OUT)); trusterLeft.freq(50)
 
 # Joystick x axis
 joyX = ADC(27)
@@ -56,13 +56,18 @@ def map(x, in_min, in_max, out_min, out_max):
 # Map the value from 0-100% to a pulse from 1400ms to 1600ms for low speed
 def speed(speed):
     if speedProfile == 1:
-        speed = map(speed, 0,100, 1100,1900) #ESC
+        left = map(speed, 0,100, 1100,1500) #ESC
+        right = map(speed, 0,100, 1400,1550) #ESC
     else:
-        speed = map(speed, 0,100, 1400,1600) #ESC
+        left = map(speed, 0,100, 1100,1900) #ESC
+        right = map(speed, 0,100, 1400,1600) #ESC
 
-    trusterRight.duty_ns(speed * 1000) # in nanoseconds
-    trusterLeft.duty_ns(speed * 1000) # in nanoseconds
-    # print(speed)
+    # trusterRight.duty_ns(1400 * 1000) # in nanoseconds
+    # trusterLeft.duty_ns(1600 * 1000) # in nanoseconds
+
+    trusterRight.duty_ns(right * 1000) # in nanoseconds
+    trusterLeft.duty_ns(left * 1000) # in nanoseconds
+    print(speed)
         
 # Turn off the outputs
 def escOff():
