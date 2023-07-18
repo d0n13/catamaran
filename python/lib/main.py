@@ -9,21 +9,7 @@ import mcp23009 as Controls
 
 # Init MCP23009 to control buttons and lights
 controls = Controls.mcp23009()
-controls.setupIO()
-
-while True: 
-    controls.setOutput(7, 1)
-    sleep(0.5)
-    controls.setOutput(7, 0)
-    sleep(0.5)
-    controls.setOutput(6, 1)
-    sleep(0.5)
-    controls.setOutput(6, 0)
-    sleep(0.5)
-    controls.setOutput(5, 1)
-    sleep(0.5)
-    controls.setOutput(5, 0)
-    sleep(0.5)
+controls.setupIODIR()
 # controls.setAsInput(0)  # Joystick button
 # controls.setAsInput(1)  # Kill switch
 # controls.setAsInput(2)  # Switch 3
@@ -43,8 +29,8 @@ DEAD_ZONE = 50 # Ignore values lower than this
 STEER_DIFF = 200 
 
 # init display
-display = oleddisplay.OLED()
-display.updateBattery(100)
+#display = oleddisplay.OLED()
+#display.updateBattery(100)
 
 util.flashLED()
 
@@ -163,7 +149,7 @@ def joystickToTrottle():
     y = Joystick.read_adc_value(Joystick.yaxis) # x-axis
     
     mapx = map(x, 0,1023, 0,100)    # Map to a range 0-100. Center position is 50
-    mapy = map(y, 0,1023, 0,100)
+    mapy = map(y, 0,1023, 100,0)
     # print("x: ", mapx ," y: ", mapy)
     speed(mapx, mapy)
 

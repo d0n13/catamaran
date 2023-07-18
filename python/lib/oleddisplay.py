@@ -1,9 +1,8 @@
 from machine import Pin, I2C
-import ssd1306
-import util
+import ssd1306 as ssd1306
+import util as util
 
 class OLED:
-
 
     def __init__(self):
         # setup display
