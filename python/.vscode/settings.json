@@ -11,7 +11,7 @@
         "/Users/donie/Library/Application Support/Code/User/globalStorage/joedevivo.vscode-circuitpython/bundle/20230701/adafruit-circuitpython-bundle-py-20230701/lib",
         ".vscode/Pico-W-Stub/stubs"
     ],
-    "picowgo.syncFolder": "lib",
+    "picowgo.syncFolder": "",
     "picowgo.openOnStart": true,
     "python.linting.pylintEnabled": false,
     "python.analysis.diagnosticSeverityOverrides": {
