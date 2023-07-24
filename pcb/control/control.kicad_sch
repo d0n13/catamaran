@@ -4571,7 +4571,7 @@
   )
 
   (symbol (lib_name "2N7002HSX_1") (lib_id "Transistor_FET:2N7002HSX") (at 238.76 129.54 0) (unit 1)
-    (in_bom yes) (on_board no) (fields_autoplaced)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 7e526690-9753-4464-9bb8-5720c89f8bc6)
     (property "Reference" "Q2" (id 0) (at 243.967 128.7053 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -4633,7 +4633,7 @@
   )
 
   (symbol (lib_name "2N7002HSX_1") (lib_id "Transistor_FET:2N7002HSX") (at 238.76 151.13 0) (unit 2)
-    (in_bom yes) (on_board no) (fields_autoplaced)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 88ba96a2-3795-491d-8335-be7d86097f53)
     (property "Reference" "Q2" (id 0) (at 243.967 150.2953 0)
       (effects (font (size 1.27 1.27)) (justify left))

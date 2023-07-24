@@ -1859,7 +1859,7 @@
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp a04e33c4-2558-4696-8298-e41cb03d8400)
     )
-    (fp_text value "ESC Right" (at 1.25 4.6 90) (layer "F.Fab")
+    (fp_text value "ESC 2 PCM" (at 1.25 4.6 90) (layer "F.Fab")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp d7bcc4e4-0d8e-4bf7-8fcf-dc08bb1a50a5)
     )
@@ -1926,7 +1926,7 @@
       (effects (font (size 0.75 0.75) (thickness 0.15)))
       (tstamp f47c437e-48c8-4993-87f2-502c4f93d04e)
     )
-    (fp_text value "2N7002HSX" (at 0 2) (layer "F.Fab") hide
+    (fp_text value "US6K1" (at 0 2) (layer "F.Fab") hide
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp cea103e7-394b-4fda-b8dd-574d8c16747b)
     )
@@ -2358,7 +2358,7 @@
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp d4a9340e-9c7a-4502-ae92-30c930179331)
     )
-    (fp_text value "ESC Left" (at 1.25 4.6 90) (layer "F.Fab")
+    (fp_text value "ESC 1 PCM" (at 1.25 4.6 90) (layer "F.Fab")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 8df4e866-936a-44ff-af88-c1970396a9e3)
     )
