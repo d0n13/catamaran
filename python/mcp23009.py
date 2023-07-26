@@ -2,12 +2,14 @@
 class mcp23009:
 
     def __init__(self, addr=0x27, i2c=0x27):
+
         self.i2c = i2c
         self.i2caddr = addr
         self.reg = bytearray(2)
         self.gpio = 0
 
     def readGPIO(self):
+
         #  read the gpio
         self.i2c.writeto(self.i2caddr, bytes([0x09]))
         self.gpio = self.i2c.readfrom(self.i2caddr, 1)[0]
@@ -15,6 +17,7 @@ class mcp23009:
         return self.gpio
 
     def setupIO(self):
+
         iodir = bytearray(([0x00, 0x1f]))
         self.i2c.writeto(self.i2caddr, iodir)
 
@@ -34,6 +37,7 @@ class mcp23009:
         self.readGPIO()
 
     def setOutput(self, bit, value=True):
+
         olat = bytearray(([0x0A]))
         current = self.i2c.writeto(self.i2caddr, bytes([0x0A]))
 
@@ -47,16 +51,19 @@ class mcp23009:
         print(f"{current:08b}")
 
     def isSafetyOn(self):
+
         # current = self.readGPIO()
         pattern = self.gpio & (1 << 1)
         return bool(self.gpio & pattern)
         # print(f"{current:08b} {pattern:08b} {result}")
 
     def isJoystickHatOn(self):
+
         pattern = self.gpio & 1
         return not bool(self.gpio & pattern)
 
     def readButtons(self):
+
         # current = self.readGPIO()
         button1 = not bool(self.gpio & 0x10)
         button2 = not bool(self.gpio & 0x08)
@@ -65,6 +72,7 @@ class mcp23009:
 
     # Set GPIO as input
     def setAsInput(self, ibit):
+
         reg = bytearray(1)
         reg[0] = 0
         # Read current register value
@@ -82,6 +90,7 @@ class mcp23009:
         # Set GPIO as output
 
     def setAsOutput(self, ibit):
+
         reg = bytearray(1)
         reg[0] = 0
 
@@ -99,6 +108,7 @@ class mcp23009:
         # Set value of GPIO
 
     def set(self, ibit, value):
+
         reg = 0
 
         # Read current register value
@@ -116,6 +126,7 @@ class mcp23009:
         # Set the output value of many GPIOs at once
 
     def setMany(self, bits, values):
+
         val = -1
         reg = 9
         # Loop over all bits
@@ -139,6 +150,7 @@ class mcp23009:
     # Read register for I2C R/W test
     # Register chosen controls the mask value for the interupt which won't affect any behaviors
     def read(self, ibit):
+
         reg = 3
         # Read register
         self.i2c.write_byte(self.i2caddr, reg)
@@ -151,12 +163,14 @@ class mcp23009:
             return 0
 
     def setByte(self, value):
+
         reg = 3
 
         # Set I2C check register
         self.i2c.write_byte(reg, value)
 
     def readByte(self):
+
         reg = 3
 
         # Read I2C check register
@@ -165,6 +179,7 @@ class mcp23009:
         return cval
 
     def readAllBytes(self):
+
         bytes = []
         for i in range(0, 11):
             bytes.append(self.i2c.read_byte(i))

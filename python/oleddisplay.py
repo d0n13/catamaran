@@ -6,7 +6,7 @@ class OLED:
 
     def __init__(self, i2c):
 
-        #  store last reading from battery
+        # store last reading from battery
         self.batteryVoltage = 0
         self.flash = False
         self.leftPower = 1500
@@ -16,7 +16,6 @@ class OLED:
         self.i2c = i2c
         self.frame = ssd1306.SSD1306_I2C(128, 32, i2c)
         self.display = ssd1306.SSD1306_I2C(128, 32, i2c)
-        # self.display.text('Demo', 0, 0)
 
         # Bounding box for battery display
         self.display.rect(0, 24, 128, 8, 1)

@@ -9,6 +9,7 @@ class Joystick:
         self.i2c  = i2c
 
     def readAxis(self):
+
         x = self.adc.read(self.i2c, XAXIS)  # x-axis
         y = self.adc.read(self.i2c, YAXIS)  # y-axis
 

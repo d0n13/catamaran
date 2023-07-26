@@ -18,6 +18,7 @@ t200 = truster.PowerManager(display)
 
 
 def timeCrit():
+
     print("Starting...")
     while True:
         axis = joystick.readAxis()
@@ -32,6 +33,7 @@ def timeCrit():
         sleep(0.1)
 
 def displayUpdates():
+
     while True:
         controls.readGPIO()
         display.updateBattery()
@@ -50,6 +52,7 @@ def displayUpdates():
 
 
 if __name__ == "__main__":
+
     _thread.start_new_thread(displayUpdates, ())
     timeCrit()
 

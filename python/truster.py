@@ -8,7 +8,7 @@ DEAD_ZONE = 50  # Ignore values lower than this
 STEER_DIFF = 200 # How much the steering effect has on truster
 
 class PowerManager:
-    
+
     def __init__(self, display):
         
         self.display = display
@@ -20,10 +20,12 @@ class PowerManager:
         self.trusterLeft.freq(50)
 
     def killTrusters(self):
+
         self.trusterRight.duty_ns(OFFPCM * 1000)  # in nanoseconds
         self.trusterLeft.duty_ns(OFFPCM * 1000)  # in nanoseconds
         
     def calculateTrusterPCM(self, position):
+
         # Set speeds to be same on both ESC controllers
         # Map the value from 0-100% to a pulse from 1100ms to 1900ms for high speed
         # Map the value from 0-100% to a pulse from 1400ms to 1600ms for low speed
