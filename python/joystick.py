@@ -1,4 +1,3 @@
-import mcp3021 as mcp
 import util
 
 XAXIS = 0x48
@@ -8,8 +7,7 @@ class Joystick:
     
     def __init__(self, i2c):
         self.i2c  = i2c
-        self.adc = mcp.mcp3021()
-        
+
     def readAxis(self):
         x = self.adc.read(self.i2c, XAXIS)  # x-axis
         y = self.adc.read(self.i2c, YAXIS)  # y-axis

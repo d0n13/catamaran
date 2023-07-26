@@ -1,7 +1,4 @@
-import machine
 import time
-import utime
-import util as util
 
 # MCP3021 I2C address
 xaxis = 0x48

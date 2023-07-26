@@ -1,8 +1,6 @@
-from machine import ADC, I2C, Pin
+from machine import ADC
 import ssd1306 as ssd1306
 import util as util
-from array import *
-
 
 class OLED:
 
@@ -15,7 +13,6 @@ class OLED:
         self.rightPower = 1500
 
         # setup display
-        led = Pin(25, Pin.OUT)
         self.i2c = i2c
         self.frame = ssd1306.SSD1306_I2C(128, 32, i2c)
         self.display = ssd1306.SSD1306_I2C(128, 32, i2c)
@@ -32,8 +29,6 @@ class OLED:
         self.display.show()
 
     def showSafety(self, safetyOn):
-        # self.display.poly(110, 0, array('h', [0,0, 0, 8, -5, 4]), 1, 1)
-        # self.display.poly(122, 0, array('h', [0,0, 0, 8, 5, 4]), 1, 1)
 
         self.display.rect(109, 2, 2, 9, 1, 1)
         self.display.rect(122, 2, 2, 9, 1, 1)
@@ -45,6 +40,7 @@ class OLED:
             self.showText('ATTACH')
 
     def showButtons(self, buttons):
+
         one, two, three = buttons
         r = 4
         self.display.ellipse(6, 6, r, r, 0, 1)
@@ -91,12 +87,14 @@ class OLED:
             self.display.rect(0, 24, 16, 8, 1)
 
     def setCruise(self, state):
+
         if state:
             self.showText('CRUISE')
         else:
             self.showText('MAN')
 
     def showText(self, text):
+
         self.display.rect(48, 2, 52, 8, 0, 1)
         if(len(text) <= 3):
             self.display.text(text, 66, 2)

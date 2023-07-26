@@ -1,9 +1,5 @@
-import time
 from time import sleep
-from machine import ADC, Pin, PWM, ADC, I2C
-import ssd1306 as ssd1306
 import oleddisplay as oleddisplay
-import util as util
 import joystick
 import mcp23009 as Controls
 import truster
