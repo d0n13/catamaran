@@ -1,10 +1,8 @@
-from machine import I2C, Pin
-
 
 class mcp23009:
 
-    def __init__(self, addr=0x27):
-        self.i2c = I2C(0, sda=Pin(20), scl=Pin(21))
+    def __init__(self, addr=0x27, i2c=0x27):
+        self.i2c = i2c
         self.i2caddr = addr
         self.reg = bytearray(2)
         self.gpio = 0
@@ -13,7 +11,7 @@ class mcp23009:
         #  read the gpio
         self.i2c.writeto(self.i2caddr, bytes([0x09]))
         self.gpio = self.i2c.readfrom(self.i2caddr, 1)[0]
-        # print(f"GPIO: {self.gpio[0]:08b}")
+        #print(f"GPIO: {self.gpio:08b}")
         return self.gpio
 
     def setupIO(self):
@@ -48,16 +46,15 @@ class mcp23009:
 
         print(f"{current:08b}")
 
-    def isSafetyON(self):
+    def isSafetyOn(self):
         # current = self.readGPIO()
         pattern = self.gpio & (1 << 1)
         return bool(self.gpio & pattern)
         # print(f"{current:08b} {pattern:08b} {result}")
 
-    def isSafetyON(self):
-        # current = self.readGPIO()
-        pattern = self.gpio & (1 << 1)
-        return bool(self.gpio & pattern)
+    def isJoystickHatOn(self):
+        pattern = self.gpio & 1
+        return not bool(self.gpio & pattern)
 
     def readButtons(self):
         # current = self.readGPIO()

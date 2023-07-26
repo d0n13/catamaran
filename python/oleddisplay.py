@@ -6,20 +6,22 @@ from array import *
 
 class OLED:
 
-    def __init__(self):
+    def __init__(self, i2c):
 
         #  store last reading from battery
         self.batteryVoltage = 0
-        self.flash = False;
+        self.flash = False
+        self.leftPower = 1500
+        self.rightPower = 1500
 
         # setup display
         led = Pin(25, Pin.OUT)
-        i2c = I2C(0, sda=Pin(20), scl=Pin(21))
+        self.i2c = i2c
         self.frame = ssd1306.SSD1306_I2C(128, 32, i2c)
         self.display = ssd1306.SSD1306_I2C(128, 32, i2c)
         # self.display.text('Demo', 0, 0)
 
-        #  bounding box for battery display
+        # Bounding box for battery display
         self.display.rect(0, 24, 128, 8, 1)
 
         # bounding circles for buttons
@@ -70,15 +72,15 @@ class OLED:
 
         # map the power to the graph
         width = util.map(volts, 44300, 60800, 0, 122)
+        #width = 40
         if width > 122:
             width = 122
 
-        # Blank out the dispplay before updating frame
+        # Blank out the display before updating frame
         self.display.fill_rect(3, 26, 124, 4, 0)
         self.display.fill_rect(3, 26, width, 4, 1)
 
         power = util.map(width, 0, 122, 0, 100)
-
         if power <= 10:
             self.flash = not self.flash
             self.display.rect(0, 24, 128, 8, self.flash)
@@ -92,11 +94,26 @@ class OLED:
         if state:
             self.showText('CRUISE')
         else:
-            self.showText('MANN')
+            self.showText('MAN')
 
     def showText(self, text):
-        self.display.rect(48, 3, 52, 8, 0, 1)
-        self.display.text(text, 52, 3)
+        self.display.rect(48, 2, 52, 8, 0, 1)
+        if(len(text) <= 3):
+            self.display.text(text, 66, 2)
+        else:
+            self.display.text(text, 54, 2)
+
+    def showTrusterPower(self):
+
+        # map the power values
+        left = util.map(self.leftPower, 1100, 1900, -20, 20)
+        right = util.map(self.rightPower, 1100, 1900, -20, 20)
+        #print(f"D {left:3},{right:3}")
+        x = 78
+        self.display.rect(x-22, 13, 44, 8, 1, 0)
+        self.display.rect(x-20, 14, 40, 6, 0, 1)
+        self.display.line(x, 15, x + left, 15, 1)
+        self.display.line(x, 17, x + right, 17, 1)
 
     def updateDisplay(self):
         self.frame.blit(self.display, 0, 0)
