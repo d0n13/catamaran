@@ -1,6 +1,6 @@
-# Boat controller v1
+# Electric catamaran
 
-Boat with two trusters and a servo linked via a joystick. Two ESC controllers driving the trusters and everything running on a rasspberry pi pico in micropython.
+Boat with two catamaran hulls with trusters driven by a joystick. Two ESC controllers driving the trusters and everything running on a rasspberry pi pico in micropython. Battery pack is a 5s12p pack driving the trusters. 1.2kw output. 21700 batteries
 
 Hardware designed in [Fusion 360](https://gmail362014.autodesk360.com/g/projects/20220607531689401/data/dXJuOmFkc2sud2lwcHJvZDpmcy5mb2xkZXI6Y28uRkVOcG5FTk5Rc0s0LTh4UGM5VVRHdw)
 
