@@ -114,7 +114,6 @@ class SSD1306(framebuf.FrameBuffer):
         self.write_cmd(self.pages - 1)
         self.write_data(self.buffer)
 
-
 class SSD1306_I2C(SSD1306):
     def __init__(self, width, height, i2c, addr=0x3C, external_vcc=False):
 
@@ -134,7 +133,6 @@ class SSD1306_I2C(SSD1306):
 
         self.write_list[1] = buf
         self.i2c.writevto(self.addr, self.write_list)
-
 
 class SSD1306_SPI(SSD1306):
     def __init__(self, width, height, spi, dc, res, cs, external_vcc=False):
